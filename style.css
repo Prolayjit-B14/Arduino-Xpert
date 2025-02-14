@@ -1,45 +1,176 @@
+/* 🎨 Root Variables for Theming */
+:root {
+  --primary-color: #2563eb;
+  --secondary-color: #f3f4f6;
+  --danger-color: #dc2626;
+  --text-color: #333;
+  --bg-light: #ffffff;
+  --bg-dark: #1a202c;
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --radius: 12px;
+  --transition: all 0.3s ease-in-out;
+}
+
+/* 🌙 Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-light: #1a202c;
+    --text-color: #e2e8f0;
+    --secondary-color: #2d3748;
+    --shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* 🏠 Global Styles */
+body {
+  font-family: "Inter", sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  transition: var(--transition);
+}
+
+/* 📦 Utility Classes */
 .container {
-    max-width: 600px;
-    margin: auto;
+  max-width: 700px;
+  margin: auto;
+  padding: 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.shadow {
+  box-shadow: var(--shadow);
+}
+
+.rounded-lg {
+  border-radius: var(--radius);
+}
+
+.p-6 {
+  padding: 24px;
+}
+
+.p-4 {
+  padding: 16px;
+}
+
+.p-2 {
+  padding: 8px;
+}
+
+.mb-2 {
+  margin-bottom: 8px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
+}
+
+/* 🎨 Background Colors */
+.bg-white {
+  background-color: var(--bg-light);
+}
+
+.bg-gray {
+  background-color: var(--secondary-color);
+}
+
+/* 🛠️ Buttons */
+.button {
+  display: inline-block;
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+}
+
+.button-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.button-primary:hover {
+  background-color: #1e40af;
+  transform: scale(1.05);
+}
+
+.button-danger {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.button-danger:hover {
+  background-color: #991b1b;
+  transform: scale(1.05);
+}
+
+/* 🔍 Input Fields */
+.input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: var(--radius);
+  font-size: 16px;
+  margin-bottom: 10px;
+  outline: none;
+  transition: var(--transition);
+}
+
+.input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.5);
+}
+
+/* 🗓️ Event Card */
+.event-card {
+  background-color: var(--secondary-color);
+  padding: 16px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  transition: var(--transition);
+}
+
+.event-card:hover {
+  transform: scale(1.02);
+}
+
+/* 📱 Responsive Design */
+@media screen and (max-width: 768px) {
+  .container {
+    max-width: 100%;
+    padding: 15px;
   }
   
-  .bg-white {
-    background-color: #fff;
+  .button {
+    width: 100%;
+    padding: 14px;
   }
   
-  .bg-gray-100 {
-    background-color: #f3f4f6;
+  .input {
+    padding: 14px;
   }
-  
-  .text-center {
-    text-align: center;
-  }
-  
-  .text-2xl {
-    font-size: 1.5rem;
-  }
-  
-  .font-bold {
-    font-weight: bold;
-  }
-  
-  .shadow {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .rounded-lg {
-    border-radius: 8px;
-  }
-  
-  .p-6 {
-    padding: 24px;
-  }
-  
-  .p-2 {
-    padding: 8px;
-  }
-  
-  .mb-2 {
-    margin-bottom: 8px;
-  }
-  
+}
