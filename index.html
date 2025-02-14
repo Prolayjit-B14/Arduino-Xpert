@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <h1 class="text-2xl font-bold text-center mb-4">Event Management</h1>
+        
+        <div class="bg-white p-6 shadow rounded-lg">
+            <input type="text" id="eventName" placeholder="Event Name" class="border p-2 w-full mb-2">
+            <input type="date" id="eventDate" class="border p-2 w-full mb-2">
+            <textarea id="eventDesc" placeholder="Event Description" class="border p-2 w-full mb-2"></textarea>
+            <button onclick="createEvent()" class="bg-blue-500 text-white p-2 w-full">Create Event</button>
+        </div>
+
+        <h2 class="text-xl font-semibold mt-6">Upcoming Events</h2>
+        <div id="eventsList"></div>
+    </div>
+
+    <script>
+        async function fetchEvents() {
+            const res = await fetch("http://localhost:5000/api/events");
+            const events = await res.json();
+            document.getElementById("eventsList").innerHTML = events.map(event => `
+                <div class="bg-gray-100 p-4 my-2 shadow rounded-lg flex justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold">${event.name}</h3>
+                        <p>${event.date}</p>
+                        <p>${event.description}</p>
+                    </div>
+                    <button onclick="deleteEvent('${event._id}')" class="bg-red-500 text-white px-4 py-2">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        async function createEvent() {
+            const name = document.getElementById("eventName").value;
+            const date = document.getElementById("eventDate").value;
+            const description = document.getElementById("eventDesc").value;
+            
+            await fetch("http://localhost:5000/api/events", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, date, description })
+            });
+            
+            document.getElementById("eventName").value = "";
+            document.getElementById("eventDate").value = "";
+            document.getElementById("eventDesc").value = "";
+            fetchEvents();
+        }
+
+        async function deleteEvent(id) {
+            await fetch(`http://localhost:5000/api/events/${id}`, { method: "DELETE" });
+            fetchEvents();
+        }
+
+        fetchEvents();
+    </script>
+</body>
+</html>
