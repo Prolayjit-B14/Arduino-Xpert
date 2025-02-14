@@ -6,46 +6,47 @@
     <title>Event Management System</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gradient-to-r from-blue-400 to-purple-500 text-white min-h-screen flex items-center justify-center">
     <div class="container mx-auto p-6">
-        <h1 class="text-2xl font-bold text-center mb-4">Event Management</h1>
+        <h1 class="text-3xl font-extrabold text-center mb-6">Event Management</h1>
         
-        <div class="bg-white p-6 shadow rounded-lg">
-            <input type="text" id="eventName" placeholder="Event Name" class="border p-2 w-full mb-2">
-            <input type="date" id="eventDate" class="border p-2 w-full mb-2">
-            <textarea id="eventDesc" placeholder="Event Description" class="border p-2 w-full mb-2"></textarea>
-            <button onclick="createEvent()" class="bg-blue-500 text-white p-2 w-full">Create Event</button>
+        <div class="bg-white text-black p-6 shadow-lg rounded-lg max-w-lg mx-auto">
+            <h2 class="text-xl font-semibold text-center mb-4">Create New Event</h2>
+            <input type="text" id="eventName" placeholder="Event Name" class="border p-2 w-full mb-3 rounded-md">
+            <input type="date" id="eventDate" class="border p-2 w-full mb-3 rounded-md">
+            <textarea id="eventDesc" placeholder="Event Description" class="border p-2 w-full mb-3 rounded-md"></textarea>
+            <button onclick="createEvent()" class="bg-blue-600 hover:bg-blue-700 text-white p-2 w-full rounded-md transition">Create Event</button>
         </div>
 
-        <h2 class="text-xl font-semibold mt-6">Upcoming Events</h2>
-        <div id="eventsList"></div>
+        <h2 class="text-2xl font-semibold text-center mt-8">Upcoming Events</h2>
+        <div id="eventsList" class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
     </div>
 
     <script>
         async function fetchEvents() {
-            const res = await fetch("http://localhost:5000/api/events");
+            const res = await fetch("http://localhost:5000/events");
             const events = await res.json();
             document.getElementById("eventsList").innerHTML = events.map(event => `
-                <div class="bg-gray-100 p-4 my-2 shadow rounded-lg flex justify-between">
+                <div class="bg-white text-black p-4 shadow-lg rounded-lg flex flex-col justify-between">
                     <div>
-                        <h3 class="text-lg font-bold">${event.name}</h3>
-                        <p>${event.date}</p>
-                        <p>${event.description}</p>
+                        <h3 class="text-lg font-bold">${event.title}</h3>
+                        <p class="text-sm text-gray-600">${new Date(event.date).toDateString()}</p>
+                        <p class="mt-2">${event.description}</p>
                     </div>
-                    <button onclick="deleteEvent('${event._id}')" class="bg-red-500 text-white px-4 py-2">Delete</button>
+                    <button onclick="deleteEvent('${event._id}')" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 mt-4 rounded-md transition">Delete</button>
                 </div>
             `).join('');
         }
 
         async function createEvent() {
-            const name = document.getElementById("eventName").value;
+            const title = document.getElementById("eventName").value;
             const date = document.getElementById("eventDate").value;
             const description = document.getElementById("eventDesc").value;
             
-            await fetch("http://localhost:5000/api/events", {
+            await fetch("http://localhost:5000/events", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, date, description })
+                body: JSON.stringify({ title, date, description })
             });
             
             document.getElementById("eventName").value = "";
@@ -55,7 +56,7 @@
         }
 
         async function deleteEvent(id) {
-            await fetch(`http://localhost:5000/api/events/${id}`, { method: "DELETE" });
+            await fetch(`http://localhost:5000/events/${id}`, { method: "DELETE" });
             fetchEvents();
         }
 
@@ -63,3 +64,4 @@
     </script>
 </body>
 </html>
+
